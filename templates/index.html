@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Classifier</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script>
+        function displayResult(data) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `<p><strong>Input Text:</strong> ${data.input}</p>
+                                   <p><strong>Classification:</strong> ${data.classification}</p>`;
+            resultDiv.style.display = "block";
+        }
+
+        function submitForm(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+
+            fetch('/classify', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => displayResult(data))
+            .catch(error => {
+                const resultDiv = document.getElementById("result");
+                resultDiv.innerHTML = `<p><strong>Error:</strong> ${error}</p>`;
+                resultDiv.style.display = "block";
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Spam Classifier</h1>
+        <form onsubmit="submitForm(event)">
+            <textarea name="text" rows="5" cols="40" placeholder="Enter your text here"></textarea><br><br>
+            <button type="submit">Classify</button>
+        </form>
+        <div id="result">
+        </div>
+    </div>
+</body>
+</html>
