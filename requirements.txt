@@ -1,0 +1,6 @@
+flask
+scikit-learn
+pandas
+dvc[s3]
+boto3
+pickle-mixin
